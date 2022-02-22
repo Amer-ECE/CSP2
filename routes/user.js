@@ -1,28 +1,22 @@
 const express = require("express");
-const User = require("../models/user");
 const router = express.Router();
+const userController = require("../controller/user");
+const auth = require("../auth");
 
-// Create new user.
-router.post("/", (req, res) => {
-    const newUser = new User({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        password: req.body.password
-    });
-
-    newUser.save().then((user, err) => {
-        if (err) {
-            res.send(false);
-        } else {
-            res.send(true);
-        };
-    });
+// Route for checkEmail.
+router.post("/checkEmail", (req, res) => {
+    userController.checkEmail(req.body).then(dataFromController => res.send(dataFromController));
 });
 
-// Get all users
-router.get("/", (req, res) => {
-    return User.findOne({}).then(data => res.send(data));
+// Route for user registration.
+router.post("/signUp", (req, res) => {
+    userController.signUp(req.body).then(dataFromController => res.send(dataFromController));
 });
+
+// Route for user login.
+router.post("/login", (req, res) => {
+    userController.login(req.body).then(dataFromController => res.send(dataFromController));
+});
+
 
 module.exports = router;
