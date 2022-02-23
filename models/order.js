@@ -14,15 +14,19 @@ const orderSchema = new mongoose.Schema({
             quantity: {
                 type: Number,
                 required: true
+            },
+            amount: {
+                type: Number,
+                required: true
             }
         }
     ],
-    totalAmount: {
-        type: Number,
-        required: true
-    },
     address: {
         type: Object,
+        required: true
+    },
+    totalAmount: {
+        type: Number,
         required: true
     },
     status: {
