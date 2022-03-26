@@ -21,7 +21,7 @@ module.exports.addOrder = (body) => {
 
 // Get user's orders.
 module.exports.getMyOrders = (userId) => {
-  return Order.find({ userId: userId }).then((data) => {
+  return Order.find({ userId }).then((data) => {
     return data;
   });
 };
@@ -41,9 +41,9 @@ module.exports.cancelRequest = (orderId) => {
 
   return Order.findByIdAndUpdate(orderId, cancelRequest).then((data, err) => {
     if (err) {
-      return "Failed";
+      return false;
     } else {
-      return "Cancellation request has been sent...";
+      return true;
     }
   });
 };
@@ -65,9 +65,9 @@ module.exports.confirmCancellation = (orderId) => {
   return Order.findByIdAndUpdate(orderId, confirmCancellation).then(
     (data, err) => {
       if (err) {
-        return "Something went wrong";
+        return false;
       } else {
-        return "cancellation has been confirmed.";
+        return true;
       }
     }
   );

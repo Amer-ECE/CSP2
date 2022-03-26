@@ -6,7 +6,7 @@ const auth = require("../auth");
 module.exports.checkEmail = (body) => {
   return User.find({ email: body.email }).then((data) => {
     if (data.length > 0) {
-      return "this email has already been taken.";
+      return true;
     } else {
       return false;
     }
@@ -14,11 +14,12 @@ module.exports.checkEmail = (body) => {
 };
 
 // User Registration.
-module.exports.signUp = (body) => {
+module.exports.signUp = async (body) => {
   const newUser = new User({
     firstName: body.firstName,
     lastName: body.lastName,
     email: body.email,
+    phoneNum: body.phoneNum,
     password: bcrypt.hashSync(body.password, 10),
   });
 
@@ -26,7 +27,7 @@ module.exports.signUp = (body) => {
     if (err) {
       return false;
     } else {
-      return "Your account has been successfully created.";
+      return true;
     }
   });
 };
@@ -35,7 +36,7 @@ module.exports.signUp = (body) => {
 module.exports.login = (body) => {
   return User.findOne({ email: body.email }).then((data) => {
     if (data === null) {
-      return "Incorrect Email or Password or Both.";
+      return false;
     } else {
       const isPasswordCorrect = bcrypt.compareSync(
         body.password,
@@ -45,7 +46,7 @@ module.exports.login = (body) => {
       if (isPasswordCorrect) {
         return { accessToken: auth.createAccessToken(data.toObject()) };
       } else {
-        return "Incorrect Email or Password or Both.";
+        return false;
       }
     }
   });

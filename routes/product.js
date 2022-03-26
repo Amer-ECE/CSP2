@@ -11,7 +11,7 @@ router.post("/", auth.verify, (req, res) => {
       .addProduct(req.body)
       .then((dataFromController) => res.send(dataFromController));
   } else {
-    res.send("You are not authorized to add products");
+    res.send(false);
   }
 });
 
@@ -36,7 +36,7 @@ router.put("/:productId", auth.verify, (req, res) => {
       .updateProduct(req.params.productId, req.body)
       .then((dataFromController) => res.send(dataFromController));
   } else {
-    res.send("You are not authorized to update products.");
+    res.send(false);
   }
 });
 
@@ -47,7 +47,7 @@ router.delete("/:productId", auth.verify, (req, res) => {
       .archiveProduct(req.params.productId, req.body)
       .then((dataFromController) => res.send(dataFromController));
   } else {
-    res.send("You are not authorized to archive products.");
+    res.send(false);
   }
 });
 

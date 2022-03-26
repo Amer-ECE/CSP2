@@ -6,6 +6,7 @@ module.exports.addProduct = (body) => {
     title: body.title,
     description: body.description,
     price: body.price,
+    imageUrl: body.imageUrl,
     quantity: body.quantity,
     category: body.category,
   });
@@ -14,7 +15,7 @@ module.exports.addProduct = (body) => {
     if (err) {
       return false;
     } else {
-      return "Product has been created.";
+      return true;
     }
   });
 };
@@ -39,15 +40,17 @@ module.exports.updateProduct = (productId, body) => {
     title: body.title,
     description: body.description,
     price: body.price,
+    imageUrl: body.imageUrl,
     quantity: body.quantity,
+    category: body.category,
   };
 
   return Product.findByIdAndUpdate(productId, updateProduct).then(
     (product, err) => {
       if (err) {
-        return "Failed to update product.";
+        return false;
       } else {
-        return "Product updated successfully.";
+        return true;
       }
     }
   );
@@ -62,9 +65,9 @@ module.exports.archiveProduct = (productId, body) => {
   return Product.findByIdAndUpdate(productId, archiveProduct).then(
     (product, err) => {
       if (err) {
-        return "Failed to archive product.";
+        return false;
       } else {
-        return "product has been archived.";
+        return true;
       }
     }
   );

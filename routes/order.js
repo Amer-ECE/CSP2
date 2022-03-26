@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const orderController = require("../controller/order");
 const auth = require("../auth");
+const Order = require("../models/order");
 
 // router for Adding new user's order.
 router.post("/", (req, res) => {
@@ -11,14 +12,11 @@ router.post("/", (req, res) => {
 });
 
 // Route for getting user's orders.
-router.get("/myOrders/:userId", auth.verify, (req, res) => {
-  if (auth.decode(req.headers.authorization).id === req.params.userId) {
-    orderController
-      .getMyOrders(req.params.userId)
-      .then((dataFromController) => res.send(dataFromController));
-  } else {
-    res.send("Something went wrong");
-  }
+router.get("/myOrders", auth.verify, (req, res) => {
+  const userId = auth.decode(req.headers.authorization).id;
+  orderController
+    .getMyOrders(userId)
+    .then((dataFromController) => res.send(dataFromController));
 });
 
 // Router for getting all user's orders (Admin Only).
@@ -28,19 +26,15 @@ router.get("/allOrders", auth.verify, (req, res) => {
       .getAllOrders()
       .then((dataFromController) => res.send(dataFromController));
   } else {
-    res.send("Admin only can process to this page.");
+    res.send(false);
   }
 });
 
 // Router for user's cancellation request.
 router.put("/cancel/:orderId", (req, res) => {
-  if ({ status: "Pending" }) {
-    orderController
-      .cancelRequest(req.params.orderId)
-      .then((dataFromController) => res.send(dataFromController));
-  } else {
-    res.send("Order has been Shipped.. Cannot send cancellation request.");
-  }
+  orderController
+    .cancelRequest(req.params.orderId)
+    .then((dataFromController) => res.send(dataFromController));
 });
 
 // Router for checking all cancellation requests (Admin Only).
@@ -50,7 +44,7 @@ router.get("/checkCancellation", (req, res) => {
       .checkCancellationRequests()
       .then((dataFromController) => res.send(dataFromController));
   } else {
-    req.send("Something went wrong");
+    res.send(false);
   }
 });
 
@@ -61,7 +55,7 @@ router.put("/confirmCancellation/:orderId", (req, res) => {
       .confirmCancellation(req.params.orderId)
       .then((dataFromController) => res.send(dataFromController));
   } else {
-    res.send("Something went wrong");
+    res.send(false);
   }
 });
 
