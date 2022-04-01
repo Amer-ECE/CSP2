@@ -11,7 +11,7 @@ router.post("/checkEmail", (req, res) => {
 });
 
 // Route for user registration.
-router.post("/signUp", (req, res) => {
+router.post("/register", (req, res) => {
   userController
     .signUp(req.body)
     .then((dataFromController) => res.send(dataFromController));

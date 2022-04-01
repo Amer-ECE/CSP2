@@ -4,6 +4,7 @@ const userRoute = require("./routes/user");
 const productRoute = require("./routes/product");
 const orderRoute = require("./routes/order");
 const dotenv = require("dotenv");
+const cors = require("cors");
 
 dotenv.config();
 // Server setup.
@@ -14,6 +15,7 @@ app.use(
     extended: true,
   })
 );
+app.use(cors());
 
 // Connect to mongoDB.
 mongoose.connect(process.env.MONGODB_CONNECTION, {

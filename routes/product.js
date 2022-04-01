@@ -51,4 +51,14 @@ router.delete("/:productId", auth.verify, (req, res) => {
   }
 });
 
+router.put("/:productId/archive", auth.verify, (req, res) => {
+  if (auth.decode(req.headers.authorization).isAdmin) {
+    productController
+      .toggleArchive(req.params.productId, req.body)
+      .then((dataFromController) => res.send(dataFromController));
+  } else {
+    res.send(false);
+  }
+});
+
 module.exports = router;

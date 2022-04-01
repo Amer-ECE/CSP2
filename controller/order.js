@@ -6,15 +6,14 @@ module.exports.addOrder = (body) => {
   let newOrder = new Order({
     userId: body.userId,
     products: body.products,
-    address: body.address,
     totalAmount: body.totalAmount,
   });
 
   return newOrder.save().then((order, err) => {
     if (err) {
-      return "Something Went Wrong";
+      return false;
     } else {
-      return "Your order has been successfully created";
+      return true;
     }
   });
 };

@@ -20,9 +20,9 @@ module.exports.addProduct = (body) => {
   });
 };
 
-// Get all active products.
+// Get all products.
 module.exports.allActiveProducts = () => {
-  return Product.find({ isActive: true }).then((data) => {
+  return Product.find({}).then((data) => {
     return data;
   });
 };
@@ -60,6 +60,22 @@ module.exports.updateProduct = (productId, body) => {
 module.exports.archiveProduct = (productId, body) => {
   let archiveProduct = {
     isActive: false,
+  };
+
+  return Product.findByIdAndUpdate(productId, archiveProduct).then(
+    (product, err) => {
+      if (err) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  );
+};
+
+module.exports.toggleArchive = (productId, body) => {
+  let archiveProduct = {
+    isActive: body.isActive,
   };
 
   return Product.findByIdAndUpdate(productId, archiveProduct).then(
