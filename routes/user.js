@@ -32,4 +32,9 @@ router.get("/profile", auth.verify, (req, res) => {
     .then((dataFromController) => res.send(dataFromController));
 });
 
+// Router to find user
+router.get("/:userId", (req, res) => {
+  userController.findUser(req.params.userId).then(dataFromController => res.send(dataFromController))
+})
+
 module.exports = router;

@@ -27,6 +27,16 @@ module.exports.allActiveProducts = () => {
   });
 };
 
+// New Added products .. 4 limit
+module.exports.newAdded = () => {
+  return Product.find({})
+    .sort({ createdAt: -1 })
+    .limit(4)
+    .then((data) => {
+      return data;
+    });
+};
+
 // Get specific product.
 module.exports.getSpecificProduct = (productId) => {
   return Product.findById(productId).then((data) => {

@@ -22,6 +22,13 @@ router.get("/", (req, res) => {
     .then((dataFromController) => res.send(dataFromController));
 });
 
+// Router for getting new added orders
+router.get("/newAdded", (req, res) => {
+  productController
+    .newAdded()
+    .then((dataFromController) => res.send(dataFromController));
+});
+
 // Router to get specific product.
 router.get("/:productId", (req, res) => {
   productController
